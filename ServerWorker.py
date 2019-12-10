@@ -68,7 +68,8 @@ class ServerWorker:
 				self.replyRtsp(self.OK_200, seq[1])
 				
 				# Get the RTP/UDP port from the last line
-				self.clientInfo['rtpPort'] = request[2].split(' ')[3]
+				print(request[3])
+				self.clientInfo['rtpPort'] = request[3].split(' ')[2]
 		
 		# Process PLAY request 		
 		elif requestType == self.PLAY:
@@ -121,7 +122,9 @@ class ServerWorker:
 				frameNumber = self.clientInfo['videoStream'].frameNbr()
 				try:
 					address = self.clientInfo['rtspSocket'][1][0]
+					# print(self.clientInfo['rtpPort'])
 					port = int(self.clientInfo['rtpPort'])
+					# port = 1025
 					self.clientInfo['rtpSocket'].sendto(self.makeRtp(data, frameNumber),(address,port))
 				except:
 					print("Connection Error")
